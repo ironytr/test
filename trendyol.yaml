@@ -1,0 +1,625 @@
+openapi: 3.0.0
+info:
+  title: Stage Trendyol Collection
+  version: 1.0.0
+servers:
+  - url: https://api.trendyol.com
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+tags:
+  - name: Product Integration
+  - name: Order Integration
+  - name: Claim Integration
+  - name: Question&Answer Integration
+paths:
+  /sapigw/suppliers/{supplierId}/v2/products:
+    post:
+      tags:
+        - Product Integration
+      summary: Transfer Product (Ürün Aktarımı)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                items:
+                  - barcode: Testbarkod-Deneme
+                    title: Bebek Takımı Pamuk
+                    productMainId: 1234BT
+                    brandId: 1791
+                    categoryId: 411
+                    quantity: 100
+                    stockCode: STK-345
+                    dimensionalWeight: 2
+                    description: Ürün açıklama bilgisi
+                    currencyType: TRY
+                    listPrice: 250.99
+                    salePrice: 120.99
+                    vatRate: 18
+                    cargoCompanyId: 10
+                    images:
+                      - url: https://www.sampleadress/path/folder/image_1.jpg
+                    attributes:
+                      - attributeId: 338
+                        attributeValueId: 6980
+                      - attributeId: 47
+                        customAttributeValue: PUDRA
+                      - attributeId: 346
+                        attributeValueId: 4290
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Product Integration
+      summary: Update Products (Ürün Bilgisi Güncelleme)
+      description: >-
+        https://developers.trendyol.com/en/urun-entegrasyonu/v2/product-update-v2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                items:
+                  - barcode: Testbarkod-Deneme
+                    title: Bebek Takımı Pamuk
+                    productMainId: 1234BT
+                    brandId: 1791
+                    categoryId: 411
+                    quantity: 100
+                    stockCode: STK-345
+                    dimensionalWeight: 2
+                    description: Ürün açıklama bilgisi
+                    currencyType: TRY
+                    listPrice: 250.99
+                    salePrice: 120.99
+                    vatRate: 18
+                    cargoCompanyId: 10
+                    images:
+                      - url: https://www.sampleadress/path/folder/image_1.jpg
+                    attributes:
+                      - attributeId: 338
+                        attributeValueId: 6980
+                      - attributeId: 47
+                        customAttributeValue: PUDRA
+                      - attributeId: 346
+                        attributeValueId: 4290
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/products:
+    get:
+      tags:
+        - Product Integration
+      summary: Product Filtering (Ürün Listeleme)
+      security:
+        - basicAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: size
+          in: query
+          schema:
+            type: integer
+          example: '50'
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/products/batch-requests/{batchRequestId}:
+    get:
+      tags:
+        - Product Integration
+      summary: Check Batchrequest Result (Toplu İşlem Kontrolü)
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: batchRequestId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/product-categories:
+    get:
+      tags:
+        - Product Integration
+      summary: Trendyol Category List (Trendyol Kategori Listesi)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/product-categories/{categoriId}/attributes:
+    get:
+      tags:
+        - Product Integration
+      summary: Trendyol Category-Attribute List (Trendyol Kategori - Özellik Listesi)
+      parameters:
+        - name: categoriId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/brands:
+    get:
+      tags:
+        - Product Integration
+      summary: Trendyol Brand List (Trendyol Marka Listesi)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/shipment-providers:
+    get:
+      tags:
+        - Product Integration
+      summary: Trendyol Shipment Providers List (Trendyol Kargo Şirketleri Listesi)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/addresses:
+    get:
+      tags:
+        - Product Integration
+      summary: Warehouse Addresses List (İade ve Sevkiyat Adres Bilgileri)
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/products/price-and-inventory:
+    post:
+      tags:
+        - Product Integration
+      summary: Stock and Price Update (Stok ve Fiyat Güncelleme)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                items:
+                  - barcode: '8680000000'
+                    quantity: 100
+                    salePrice: 112.85
+                    listPrice: 113.85
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/orders:
+    get:
+      tags:
+        - Order Integration
+      summary: Get Orders (Sipariş Paketlerini Çekme)
+      security:
+        - basicAuth: []
+      parameters:
+        - name: orderByField
+          in: query
+          schema:
+            type: string
+          example: PackageLastModifiedDate
+        - name: orderByDirection
+          in: query
+          schema:
+            type: string
+          example: DESC
+        - name: size
+          in: query
+          schema:
+            type: integer
+          example: '50'
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/{shipmentPackageId}/update-tracking-number:
+    put:
+      tags:
+        - Order Integration
+      summary: Shipping Code Update (Kargo Takip Kodu Bildirme)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                trackingNumber: string
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: shipmentPackageId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/shipment-packages/{Id}:
+    put:
+      tags:
+        - Order Integration
+      summary: Cancel Order Package Item (Tedarik Edememe Bildirimi)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: |-
+                {
+                    "lines": [{
+                        "lineId": {lineId},
+                        "quantity": 3
+                    }],
+                    "params": {
+                        "invoiceNumber": "EME2018000025208"
+                    },
+                    "status": "Invoiced"
+                }
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: Id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/supplier-invoice-links:
+    post:
+      tags:
+        - Order Integration
+      summary: Send Invoice Link (Fatura Linki Gönderme)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                invoiceLink: >-
+                  https://extfatura.faturaentegratoru.com/324523-34523-52345-3453245.pdf
+                shipmentPackageId: 435346
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/shipment-packages/{shipmentPackageId}/split-packages:
+    post:
+      tags:
+        - Order Integration
+      summary: Split Order Package Item (Sipariş Paketlerini Bölme)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                splitPackages:
+                  - packageDetails:
+                      - orderLineId: 12345
+                        quantities: 2
+                      - orderLineId: 123456
+                        quantities: 1
+                  - packageDetails:
+                      - orderLineId: 123
+                        quantities: 1
+                      - orderLineId: 1234
+                        quantities: 1
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: shipmentPackageId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/shipment-packages/{shipmentPackageId}/cargo-providers:
+    post:
+      tags:
+        - Order Integration
+      summary: Change Cargo Provider (Paket Kargo Firması Değiştirme)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                cargoProvider: string
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: shipmentPackageId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/claims:
+    get:
+      tags:
+        - Claim Integration
+      summary: Getting Returned Orders (İade Siparişleri Çekme)
+      security:
+        - basicAuth: []
+      parameters:
+        - name: ''
+          in: query
+          schema:
+            type: string
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/claims/create:
+    post:
+      tags:
+        - Claim Integration
+      summary: Create A Return Request (İade Talebi Oluşturma)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                claimItems:
+                  - barcode: string
+                    customerNote: string
+                    quantity: 0
+                    reasonId: 401
+                customerId: 0
+                excludeListing: true
+                forcePackageCreation: true
+                orderNumber: string
+                shipmentCompanyId: 0
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/claims/{claimId}/items/approve:
+    put:
+      tags:
+        - Claim Integration
+      summary: Approve Returned Orders (İade Siparişleri Onaylama)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                claimLineItemIdList:
+                  - f9da2317-876b-4b86-b8f7-0535c3b65731
+                params: {}
+      security:
+        - basicAuth: []
+      parameters:
+        - name: claimId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/claims/{claimId}/issue:
+    post:
+      tags:
+        - Claim Integration
+      summary: >-
+        Create A Rejection Request On Returned Orders ( İade Siparişlerinde Ret
+        Talebi Oluşturma)
+      requestBody:
+        content: {}
+      security:
+        - basicAuth: []
+      parameters:
+        - name: claimIssueReasonId
+          in: query
+          schema:
+            type: string
+          example: '{claimIssueReasonId}'
+        - name: claimItemIdList
+          in: query
+          schema:
+            type: string
+          example: '{claimItemIdList}'
+        - name: description
+          in: query
+          schema:
+            type: string
+          example: '{test}'
+        - name: claimId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/claim-issue-reasons:
+    get:
+      tags:
+        - Claim Integration
+      summary: Claim Issue Reasons (İade Red Sebeplerini Çekme)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/questions/filter:
+    get:
+      tags:
+        - Question&Answer Integration
+      summary: Getting Customer Questions (Müşteri Sorularını Çekme)
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /sapigw/suppliers/{supplierId}/questions/{id}/answers:
+    post:
+      tags:
+        - Question&Answer Integration
+      summary: Answering Customer Questions (Müşteri Sorularını Cevaplama)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                text: string
+      security:
+        - basicAuth: []
+      parameters:
+        - name: supplierId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
